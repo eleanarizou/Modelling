@@ -75,8 +75,6 @@ dDir = mainDataDir;  % fullfile(mainDataDir, 'LSM10x');
 load(fullfile(dDir,"RealData.mat"))
 NewRealradialAvgNuc;
 
-
-NewRealradialAvgNuc = RealradialAvgNuc 
 %% Run genetic algorithm
 % costall([10,0.1,0.1,0.1,0.3,0.001,0.001,0.1])
 

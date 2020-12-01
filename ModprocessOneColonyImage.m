@@ -1,4 +1,4 @@
-function colony = ModprocessOneColonyImage(filename, dataDir, varargin,namecolony)
+function colony = ModprocessOneColonyImage(filename, dataDir, varargin)
      % colony = processOib(filename, dataDir, varargin)
      % 
      % process micropatterns from Oib files
@@ -11,7 +11,7 @@ function colony = ModprocessOneColonyImage(filename, dataDir, varargin,namecolon
 
      % output dirs
      %---------------------
-     colDir = fullfile(dataDir,namecolony);
+     colDir = fullfile(dataDir,'colonies');
      if ~exist(colDir,'dir')     mkdir(colDir);      end
 
      previewDir = fullfile(colDir,'previews');
