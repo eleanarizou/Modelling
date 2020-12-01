@@ -47,7 +47,7 @@ meta.conditions = ["48h", "30h", "24h", "12h"];
 
 save(fullfile(dataDir,'metaData.mat'),'meta');
 
-DAPIChannel = 1;
+DAPIChannel = 3;
 
 %% process (save DAPI channel MIP for segmentation)
 
@@ -58,13 +58,13 @@ findColParam = struct('sclose', 6, 'sopen', 8, 'checkcontained', false,...
 % close all;
 colonies(numel([filenrs{:}])) = Colony;
 
-
+namecolony = 'AXIN2'
 for coli = [filenrs{:}]
     
     % cleanScale in micron
-    param = {'DAPIChannel',DAPIChannel, 'colID',coli, 'adjustmentFactor', 0.01,'clparameters',findColParam};
+    param = {'DAPIChannel',DAPIChannel, 'colID',coli, 'adjustmentFactor', 0.35,'clparameters',findColParam};
     filename = sprintf(fInFormat, coli);
-    colony = processOneColonyImage(filename, dataDir, param);
+    colony = ModprocessOneColonyImage(filename, dataDir, param,namecolony);
     colonies(coli) = colony;
     colonies(coli).setID(coli);
     % setID overwrites filename, which was the right thing for epi, not

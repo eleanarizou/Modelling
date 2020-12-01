@@ -2,7 +2,7 @@
 
 %% MARCH BETTER EXP , experimental data I compare with
 
-mainDataDir = '/Users/elenirea/Documents/WarmflashWNTproject/ImageData/XMAS_12_23_19_esio17_wnts_axin/stiched4images/images';
+mainDataDir = '/Volumes/storage/Eleana/ImageData2020/XMAS_12_23_19_esio17_wnts_axin/images';
 dDir = mainDataDir;  % fullfile(mainDataDir, 'LSM10x');
 nChannels = 3;
 [RealradialAvgNuc] = RealColoniesAnalysis(dDir,nChannels);
