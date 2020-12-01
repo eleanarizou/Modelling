@@ -30,10 +30,10 @@ for jjj = 1:length(FILLs)
             % here
             colonies(coli).filename = filename;
         end
-        save(fullfile('/Volumes/storage/Eleana/ImageData2020/XMAS_12_23_19_esio17_wnts_axin/stiched4images/modelling gastruloids/XMASmodellling','colonies'), 'colonies');
+        save(fullfile('/Volumes/storage/Eleana/modelling gastruloids/XMASmodellling','colonies'), 'colonies');
         
         %% show plot of different conditions side by side
-        load(fullfile('/Volumes/storage/Eleana/ImageData2020/XMAS_12_23_19_esio17_wnts_axin/stiched4images/modelling gastruloids/XMASmodellling','colonies'), 'colonies');
+        load(fullfile('/Volumes/storage/Eleana/modelling gastruloids/XMASmodellling','colonies'), 'colonies');
         nchan = 2;
         set(gcf,'Position',[0 0 800 1000])
         for ii = 1:length(FILLs{jjj})
@@ -53,7 +53,7 @@ for jjj = 1:length(FILLs)
             end
         end
         set(gcf,'Position',[0 0 1100 1500])
-        saveas(gcf,fullfile('/Volumes/storage/Eleana/ImageData2020/XMAS_12_23_19_esio17_wnts_axin/stiched4images/modelling gastruloids/XMASmodellling',[MAINFILENAME, DAPnormFilname{u},chans{jjj}{ii,1},'.png']));
+        saveas(gcf,fullfile('/Volumes/storage/Eleana/modelling gastruloids/XMASmodellling',[MAINFILENAME, DAPnormFilname{u},chans{jjj}{ii,1},'.png']));
         close all;
         
     end

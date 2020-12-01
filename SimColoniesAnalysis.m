@@ -3,8 +3,8 @@ function [SimradialAvgNuc]  = SimColoniesAnalysis(dapi)
 
 fInFormat ='u%d_%dh.tif'; %input
 fOutFormat = 'u_%dh.tif'; %output
-outDirec = '/Users/elenirea/Documents/WarmflashWNTproject/WNT_turingfunction/outPutODE45_2020/images';
-inDirec = '/Users/elenirea/Documents/WarmflashWNTproject/WNT_turingfunction/outPutODE45_2020';
+outDirec = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/images';
+inDirec = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/';
 % IWP2 40:4:252
 % XMAS 4:4:996
 
@@ -35,7 +35,7 @@ end
 
 warning('off', 'MATLAB:imagesci:tiffmexutils:libtiffWarning');
 
-mainDataDir = '/Users/elenirea/Documents/WarmflashWNTproject/WNT_turingfunction/outPutODE45_2020/images';
+mainDataDir = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/images';
 dataDir = mainDataDir;  % fullfile(mainDataDir, 'LSM10x');
 
 fInFormat = 'u_%dh.tif';

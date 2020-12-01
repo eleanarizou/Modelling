@@ -67,7 +67,12 @@ for i = 2:2:8
 end
 
 %% FROM THE SIMULATIONS
-dapi = imread('/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/dapiO.tif');
+dapi = imread('saveInPath = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/';
+
+costall = @(x)costFunsolveFun(saveInPath,NewRealradialAvgNuc, x);
+lb = [10,0.01*ones(1,7)];
+ub = [15,0.3*ones(1,7)];
+ga(costall,8, [],[],[],[],lb, ub )/dapiO.tif');
 dapi = dapi > 30;
 dapi = imfill(dapi,'holes');
 

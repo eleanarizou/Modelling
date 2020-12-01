@@ -53,33 +53,32 @@ FILLs = {filenrs_WNT5B,filenrs_WNT6, filenrs_WNT8A};FILLsnames = {'filenrs_WNT5B
 
 %anonymous function 
 RealradialAvgNuc;
+NewRealradialAvgNuc = RealradialAvgNuc 
 
 %trim down tommatch size
 
-NewRealradialAvgNuc = {zeros(6,3),zeros(6,3),zeros(6,3),zeros(6,3),zeros(6,3)};
-for k =1:size(RealradialAvgNuc,2)
-RealradialAvgNuc{k} = RealradialAvgNuc{k}(1:17, 1:3);
-
-for i = 11:11:17
-     NewRealradialAvgNuc{k}(i/11,1:3) = RealradialAvgNuc{k}(i, 1:3);
-end
-
-end
+% NewRealradialAvgNuc = {zeros(6,3),zeros(6,3),zeros(6,3),zeros(6,3),zeros(6,3)};
+% for k =1:size(RealradialAvgNuc,2)
+% RealradialAvgNuc{k} = RealradialAvgNuc{k}(1:17, 1:3);
+% 
+% for i = 11:11:17
+%      NewRealradialAvgNuc{k}(i/11,1:3) = RealradialAvgNuc{k}(i, 1:3);
+% end
+% 
+% end
 
 % save(['result_data_run_number_' num2str(n) ',mat'],'s')
-save(fullfile(dDir,"RealData.mat"), "NewRealradialAvgNuc" )
+
+outdir = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling'
+save(fullfile(outdir,"RealData.mat"), "NewRealradialAvgNuc" )
 clear all; clc
+outdir = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling'
+load(fullfile(outdir,"RealData.mat"))
+% mainDataDir = '/Users/elenirea/Documents/WarmflashWNTproject/ImageData/XMAS_12_23_19_esio17_wnts_axin/stiched4images/images';
+% dDir = mainDataDir;  % fullfile(mainDataDir, 'LSM10x');
 
-mainDataDir = '/Users/elenirea/Documents/WarmflashWNTproject/ImageData/XMAS_12_23_19_esio17_wnts_axin/stiched4images/images';
-dDir = mainDataDir;  % fullfile(mainDataDir, 'LSM10x');
-load(fullfile(dDir,"RealData.mat"))
-NewRealradialAvgNuc;
-
-
-NewRealradialAvgNuc = RealradialAvgNuc 
 %% Run genetic algorithm
 % costall([10,0.1,0.1,0.1,0.3,0.001,0.001,0.1])
-
 
 %9 parameters
 % Da = param.Da; 
@@ -93,8 +92,9 @@ NewRealradialAvgNuc = RealradialAvgNuc
 % kdi = param.kdi; % basal degradation I 0.015
 % B = 3; % concentration BMP4
 
+saveInPath = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/';
 
-costall = @(x)costFunsolveFun(NewRealradialAvgNuc, x);
+costall = @(x)costFunsolveFun(saveInPath,NewRealradialAvgNuc, x);
 lb = [10,0.01*ones(1,7)];
 ub = [15,0.3*ones(1,7)];
 ga(costall,8, [],[],[],[],lb, ub )
