@@ -67,12 +67,12 @@ for i = 2:2:8
 end
 
 %% FROM THE SIMULATIONS
-dapi = imread('/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/dapiO.tif');
+dapi = imread('/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/dapi0.tif');
 dapi = dapi > 30;
 dapi = imfill(dapi,'holes');
 
 [SimradialAvgNuc]  = SimColoniesAnalysis(dapi);
-
+SimradialAvgNuc
 %% Compute difference and the Cost
 % dif = {zeros(6,3),zeros(6,3), zeros(6,3), zeros(6,3)};
 % diff = [];
@@ -86,6 +86,7 @@ dapi = imfill(dapi,'holes');
 %2nd version - compare only the last time point as the final outcome of the
 %time course - a bit more accurate
 diff = [];
+NewRealradialAvgNuc{1}.nucAvg(1,1)
 dif = abs((NewRealradialAvgNuc{4} - SimradialAvgNuc{4}));
 diff(:,1) = dif(:,3).^2;
 costF = sum(sum(diff));

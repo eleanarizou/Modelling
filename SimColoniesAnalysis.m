@@ -79,8 +79,6 @@ findColParam = struct('sclose', 6, 'sopen', 8, 'checkcontained', false,...
 % close all;
 colonies(numel([filenrs{:}])) = Colony;
 
-
-
 for coli = [filenrs{:}]
     
     % cleanScale in micron

@@ -56,16 +56,18 @@ RealradialAvgNuc;
 NewRealradialAvgNuc = RealradialAvgNuc 
 
 %trim down tommatch size
+outdir = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling'
+RealradialAvgNuc = load(fullfile(outdir,"RealData.mat"))
 
-% NewRealradialAvgNuc = {zeros(6,3),zeros(6,3),zeros(6,3),zeros(6,3),zeros(6,3)};
-% for k =1:size(RealradialAvgNuc,2)
-% RealradialAvgNuc{k} = RealradialAvgNuc{k}(1:17, 1:3);
-% 
-% for i = 11:11:17
-%      NewRealradialAvgNuc{k}(i/11,1:3) = RealradialAvgNuc{k}(i, 1:3);
-% end
-% 
-% end
+NewRealradialAvgNuc = {zeros(6,3),zeros(6,3),zeros(6,3),zeros(6,3),zeros(6,3)};
+for k =1:size(RealradialAvgNuc,2)
+RealradialAvgNuc{k} = RealradialAvgNuc{k}(1:17, 1:3);
+
+for i = 2:3:17
+     NewRealradialAvgNuc{k}(i/3,1:3) = RealradialAvgNuc{k}(i, 1:3);
+end
+
+end
 
 % save(['result_data_run_number_' num2str(n) ',mat'],'s')
 
