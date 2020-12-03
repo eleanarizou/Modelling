@@ -52,14 +52,12 @@ for jjj = 1:length(FILLs)
                 end
                 title([meta.conditions{ii}, ' Files ' ,num2str(FILLs{jjj}{ii}),' ', chans{jjj}{ii,jj}]); hold off;
             end
-            aveTim = [aveTim,{avgstruct}]
         end
         set(gcf,'Position',[0 0 1100 1500])
         saveas(gcf,fullfile('/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling',[MAINFILENAME, DAPnormFilname{u},chans{jjj}{ii,1},'.png']));
         close all;
         
     end
-        RealradialAvgNuc = [RealradialAvgNuc,{aveTim}]
-end
+    RealradialAvgNuc = [RealradialAvgNuc,{avgstruct}]
     
 end

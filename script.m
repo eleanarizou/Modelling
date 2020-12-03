@@ -53,19 +53,20 @@ FILLs = {filenrs_WNT5B,filenrs_WNT6, filenrs_WNT8A};FILLsnames = {'filenrs_WNT5B
 
 %anonymous function 
 RealradialAvgNuc;
-NewRealradialAvgNuc = RealradialAvgNuc 
 
 %trim down tommatch size
-outdir = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling'
-RealradialAvgNuc = load(fullfile(outdir,"RealData.mat"))
+% outdir = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling'
+% RealradialAvgNuc = load(fullfile(outdir,"RealData.mat"))
+a = {zeros(8,3),zeros(8,3),zeros(8,3),zeros(8,3),zeros(8,3)}
+NewRealradialAvgNuc = {a a a};
 
-NewRealradialAvgNuc = {zeros(8,3),zeros(8,3),zeros(8,3),zeros(8,3),zeros(8,3)};
-for k =1:size(RealradialAvgNuc,2)
-RealradialAvgNuc{k} =  RealradialAvgNuc{k}.nucAvg(1:17, 1:3);
-for i = 2:2:17
-     NewRealradialAvgNuc{k}(i/2,1:3) = RealradialAvgNuc{k}(i, 1:3);
-end
-
+for k = 1:size(NewRealradialAvgNuc,2)
+    for v = 1:size(NewRealradialAvgNuc{1},2)
+        RRealradialAvgNuc{k}{v} =  RealradialAvgNuc{k}{v}.nucAvg(1:17, 1:3);
+        for i = 2:2:17
+            NewRealradialAvgNuc{k}{v}(i/2,1:3) = RRealradialAvgNuc{k}{v}(i, 1:3);
+        end
+    end
 end
 
 % save(['result_data_run_number_' num2str(n) ',mat'],'s')
@@ -95,7 +96,7 @@ load(fullfile(outdir,"RealData.mat"))
 
 saveInPath = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/';
 
-costall = @(x)costFunsolveFun(saveInPath,NewRealradialAvgNuc, x);
+costall = @(x)costFunsolveFun(saveInPath,NewRealradialAvgNuc{1}, x);
 lb = [10,0.01*ones(1,7)];
 ub = [15,0.3*ones(1,7)];
 ga(costall,8, [],[],[],[],lb, ub )

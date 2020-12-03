@@ -73,6 +73,7 @@ dapi = imfill(dapi,'holes');
 
 [SimradialAvgNuc]  = SimColoniesAnalysis(dapi);
 SimradialAvgNuc
+
 %% Compute difference and the Cost
 % dif = {zeros(6,3),zeros(6,3), zeros(6,3), zeros(6,3)};
 % diff = [];
@@ -86,7 +87,7 @@ SimradialAvgNuc
 %2nd version - compare only the last time point as the final outcome of the
 %time course - a bit more accurate
 diff = [];
-NewRealradialAvgNuc{1}.nucAvg(1,1)
+% NewRealradialAvgNuc.nucAvg(1,1)
 dif = abs((NewRealradialAvgNuc{4} - SimradialAvgNuc{4}));
 diff(:,1) = dif(:,3).^2;
 costF = sum(sum(diff));
