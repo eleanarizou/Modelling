@@ -68,12 +68,10 @@ end
 
 %% FROM THE SIMULATIONS
 dapi = imread('/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/dapi0.tif');
-dapi = dapi > 30;
+dapi = dapi ./ 500;
 dapi = imfill(dapi,'holes');
 
 [SimradialAvgNuc]  = SimColoniesAnalysis(dapi);
-SimradialAvgNuc
-
 %% Compute difference and the Cost
 % dif = {zeros(6,3),zeros(6,3), zeros(6,3), zeros(6,3)};
 % diff = [];
@@ -88,8 +86,8 @@ SimradialAvgNuc
 %time course - a bit more accurate
 diff = [];
 % NewRealradialAvgNuc.nucAvg(1,1)
-dif = abs((NewRealradialAvgNuc{4} - SimradialAvgNuc{4}));
-diff(:,1) = dif(:,3).^2;
+dif = abs((NewRealradialAvgNuc{2}(:,1:2) - SimradialAvgNuc{4}(:,1:2)));
+diff(:,1) = dif(:,1).^2; %(WNT channel is the first)
 costF = sum(sum(diff));
 % costF = mean(mean(diff));
 %     

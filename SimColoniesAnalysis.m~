@@ -21,7 +21,7 @@ for img_num = [2,4,6,8]
         end
     end
         img(:,:,3) = dapi ;
-    a = mean(mean(img(:,:,2)));
+    a = mean(mean(img(:,:,1)));
     img(:,:,3)  = img(:,:,3).*a;
     
     if exist('img','var') && size(img,3) == 3
@@ -60,7 +60,7 @@ fileRange = folderFilesFromKeyword(dataDir,'u_');
 % u2
 filenrs = {fileRange(4), fileRange(3),fileRange(2), fileRange(1) }; %get actual file numbers
 
-meta.channelLabel = { 'WNT', 'AXIN2','DAPI'};
+meta.channelLabel = {'DAPI', 'WNT', 'AXIN2'};
 % filenrs = {4:5 9:11 15:17 21:23 27:29 33:35};
 % meta.channelLabel = {'DAPI','SIX1','PAX3','SNAI1'};
 
@@ -68,7 +68,7 @@ meta.conditions = ["48h", "30h", "24h", "12h"];
 
 save(fullfile(dataDir,'metaData.mat'),'meta');
 
-DAPIChannel = 3;
+DAPIChannel = 1;
 clear colonies
 %% process (save DAPI channel MIP for segmentation)
 
@@ -121,7 +121,7 @@ for i = 1:n
 
 %     chans = 1:length(meta.channelLabel);
 %     chansToPlot = setdiff(chans,DAPIChannel);
-    chansToPlot = 1:2;
+    chansToPlot = 3;
     
     if ~isempty(DAPIChannel)
         radialAvgNuc{i} = radialAvg.nucAvgDAPINormalized;
