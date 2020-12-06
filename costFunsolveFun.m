@@ -86,10 +86,18 @@ dapi = imfill(dapi,'holes');
 %time course - a bit more accurate
 diff = [];
 % NewRealradialAvgNuc.nucAvg(1,1)
-dif = abs((NewRealradialAvgNuc{2}(:,1:2) - SimradialAvgNuc{4}(:,1:2)));
-diff(:,1) = dif(:,1).^2; %(WNT channel is the first)
+% figure;plot(NewRealradialAvgNuc{2}(:,1));
+figure;plot(SimradialAvgNuc{1}(:,1));
+pause (2)
+SimradialAvgNuc{1}(:,1)
+% NewRealradialAvgNuc{2}(:,1)
+dif1 = abs((NewRealradialAvgNuc{2}(:,1) - SimradialAvgNuc{1}(:,1))); % the 2nd condition of real col is 48h, the 1st for sim is 48h
+dif2 = abs((NewRealradialAvgNuc{4}(:,1) - SimradialAvgNuc{3}(:,1))); % the 4nd condition of real col is 24h, the 3st for sim is ~24h
+
+diff = dif1(:,1).^2 +dif2(:,1).^2 ; %(WNT channel is the first)
 costF = sum(sum(diff));
 % costF = mean(mean(diff));
 %     
 display(["cost is", num2str(costF)])
+close all
 end

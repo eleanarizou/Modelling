@@ -99,8 +99,7 @@ saveInPath = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPu
 costall = @(x)costFunsolveFun(saveInPath,NewRealradialAvgNuc{1}, x);
 lb = [10,0.01*ones(1,7)];
 ub = [14,0.3*ones(1,7)];
-ga(costall,8, [],[],[],[],lb, ub )
-
+ga(costall,8, [],[],[],[],lb, ub);
 %%%%
 
 %% Steady state values

@@ -82,7 +82,7 @@ colonies(numel([filenrs{:}])) = Colony;
 for coli = [filenrs{:}]
     
     % cleanScale in micron
-    param = {'DAPIChannel',DAPIChannel, 'colID',coli, 'adjustmentFactor',1,'clparameters',findColParam};
+    param = {'DAPIChannel',DAPIChannel, 'colID',coli, 'adjustmentFactor',0.5,'clparameters',findColParam};
     filename = sprintf(fInFormat, coli); %i want to see the name
     colony = processOneSimColonyImage(filename, dataDir, param);
     colonies(coli) = colony;
@@ -106,22 +106,20 @@ end
 
 %inside function to make averages and plot
 
-doubleNormalize = true;
-m = 1;
+doubleNormalize = 0;
 n = numel(coloniesCombined);
+m = 1;
 radialAvgNuc = {};
 r = {};
 minI = Inf*(1:meta.nChannels);
 maxI = 0*(1:meta.nChannels);
 
 for i = 1:n
-    
     radialAvg = makeAveragesNoSegmentation(...
                     meta, colRadius, DAPIChannel, coloniesCombined{i});
-
 %     chans = 1:length(meta.channelLabel);
 %     chansToPlot = setdiff(chans,DAPIChannel);
-    chansToPlot = 1:2;
+    chansToPlot = 1;
     
     if ~isempty(DAPIChannel)
         radialAvgNuc{i} = radialAvg.nucAvgDAPINormalized;
@@ -133,7 +131,7 @@ for i = 1:n
     % for overall normalization
     % throw out 2 bins from edge when setting LUT
     % to prevent setting minimum by areas without cells
-    Imargin = 1; 
+    Imargin = 0; 
     minI = min(minI, min(radialAvgNuc{i}(1:end-Imargin,:)));
     maxI = max(maxI, max(radialAvgNuc{i}(1:end-Imargin,:)));
 end
@@ -147,18 +145,20 @@ if doubleNormalize == 1
 end
 
 
-% figure('Position',[0 0 1600 300]);
-% for i = 1:n
-%     subplot_tight(m,n,i,0.02)
-%     plot(r{i}, radialAvgNuc{i}(:,chansToPlot),'.-','LineWidth',3)
-%     axis([min(r{i}) max(r{i}) 0 1]);
-%     legend(meta.channelLabel(chansToPlot));
-%     title(meta.conditions{i})
-%     axis square
-%     if i > 1
-%         legend off;
-%     end
-% end
-%     saveas(gcf,fullfile(dataDir,'radialProfilesSimCombinedAXIN2.png'));
+figure('Position',[0 0 1600 300]);
+for i = 1:n
+    subplot_tight(m,n,i,0.02)
+    plot(r{i}, radialAvgNuc{i}(:,chansToPlot),'.-','LineWidth',3)
+    axis([min(r{i}) max(r{i}) 0 1]);
+    legend(meta.channelLabel(chansToPlot));
+    title(meta.conditions{i})
+    axis square
+    if i > 1
+        legend off;
+    end
+end
+    saveas(gcf,fullfile(dataDir,'radialProfilesSimCombinedAXIN2.png'));
+%     radialAvgNuc{1}
+%     radialAvgNuc{4}
     SimradialAvgNuc = radialAvgNuc;
 end

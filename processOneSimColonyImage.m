@@ -91,7 +91,7 @@ function colony = processOneSimColonyImage(filename, dataDir, varargin)
 %     rec = [bbox(1), bbox(3), bbox(2)-bbox(1), bbox(4)-bbox(3)];
 %     rectangle('Position',rec,'LineWidth',2,'EdgeColor','b')
 %     saveas(gcf, fullfile(previewDir,['col_id' num2str(colID) '_mask.tif']));
-    
+%     
 %     disp('save preview');
 %     preview = double(colimg(:,:,setdiff(1:meta.nChannels,DAPIChannel)));
 %     for i = 1:size(preview,3)

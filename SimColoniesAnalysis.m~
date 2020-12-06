@@ -21,7 +21,7 @@ for img_num = [2,4,6,8]
         end
     end
         img(:,:,3) = dapi ;
-    a = mean(mean(img(:,:,1)));
+    a = mean(mean(img(:,:,2)));
     img(:,:,3)  = img(:,:,3).*a;
     
     if exist('img','var') && size(img,3) == 3
@@ -60,7 +60,7 @@ fileRange = folderFilesFromKeyword(dataDir,'u_');
 % u2
 filenrs = {fileRange(4), fileRange(3),fileRange(2), fileRange(1) }; %get actual file numbers
 
-meta.channelLabel = {'DAPI', 'WNT', 'AXIN2'};
+meta.channelLabel = { 'WNT', 'AXIN2','DAPI'};
 % filenrs = {4:5 9:11 15:17 21:23 27:29 33:35};
 % meta.channelLabel = {'DAPI','SIX1','PAX3','SNAI1'};
 
@@ -68,7 +68,7 @@ meta.conditions = ["48h", "30h", "24h", "12h"];
 
 save(fullfile(dataDir,'metaData.mat'),'meta');
 
-DAPIChannel = 1;
+DAPIChannel = 3;
 clear colonies
 %% process (save DAPI channel MIP for segmentation)
 
@@ -82,7 +82,7 @@ colonies(numel([filenrs{:}])) = Colony;
 for coli = [filenrs{:}]
     
     % cleanScale in micron
-    param = {'DAPIChannel',DAPIChannel, 'colID',coli, 'adjustmentFactor',1,'clparameters',findColParam};
+    param = {'DAPIChannel',DAPIChannel, 'colID',coli, 'adjustmentFactor',0.5,'clparameters',findColParam};
     filename = sprintf(fInFormat, coli); %i want to see the name
     colony = processOneSimColonyImage(filename, dataDir, param);
     colonies(coli) = colony;
@@ -106,8 +106,7 @@ end
 
 %inside function to make averages and plot
 
-doubleNormalize = true;
-m = 1;
+doubleNormalize = 0;
 n = numel(coloniesCombined);
 radialAvgNuc = {};
 r = {};
@@ -115,13 +114,11 @@ minI = Inf*(1:meta.nChannels);
 maxI = 0*(1:meta.nChannels);
 
 for i = 1:n
-    
     radialAvg = makeAveragesNoSegmentation(...
                     meta, colRadius, DAPIChannel, coloniesCombined{i});
-
 %     chans = 1:length(meta.channelLabel);
 %     chansToPlot = setdiff(chans,DAPIChannel);
-    chansToPlot = 3;
+    chansToPlot = 2;
     
     if ~isempty(DAPIChannel)
         radialAvgNuc{i} = radialAvg.nucAvgDAPINormalized;
@@ -133,7 +130,7 @@ for i = 1:n
     % for overall normalization
     % throw out 2 bins from edge when setting LUT
     % to prevent setting minimum by areas without cells
-    Imargin = 1; 
+    Imargin = 0; 
     minI = min(minI, min(radialAvgNuc{i}(1:end-Imargin,:)));
     maxI = max(maxI, max(radialAvgNuc{i}(1:end-Imargin,:)));
 end
@@ -147,18 +144,18 @@ if doubleNormalize == 1
 end
 
 
-% figure('Position',[0 0 1600 300]);
-% for i = 1:n
-%     subplot_tight(m,n,i,0.02)
-%     plot(r{i}, radialAvgNuc{i}(:,chansToPlot),'.-','LineWidth',3)
-%     axis([min(r{i}) max(r{i}) 0 1]);
-%     legend(meta.channelLabel(chansToPlot));
-%     title(meta.conditions{i})
-%     axis square
-%     if i > 1
-%         legend off;
-%     end
-% end
-%     saveas(gcf,fullfile(dataDir,'radialProfilesSimCombinedAXIN2.png'));
+figure('Position',[0 0 1600 300]);
+for i = 1:n
+    subplot_tight(m,n,i,0.02)
+    plot(r{i}, radialAvgNuc{i}(:,chansToPlot),'.-','LineWidth',3)
+    axis([min(r{i}) max(r{i}) 0 1]);
+    legend(meta.channelLabel(chansToPlot));
+    title(meta.conditions{i})
+    axis square
+    if i > 1
+        legend off;
+    end
+end
+    saveas(gcf,fullfile(dataDir,'radialProfilesSimCombinedAXIN2.png'));
     SimradialAvgNuc = radialAvgNuc;
 end
