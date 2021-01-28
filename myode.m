@@ -26,7 +26,7 @@ kaa = 1.1;
 % activator
 matA = (ba+(matA)./((1+kia*matI).*(1+ka*matA)) - kda*matA + Da*del2(matA));
 %inhibitor
-matI = (kaa*matA + bi - kdi*matI );%- matII.^3
+matI = (kaa*matA + bi - kdi*matI);%- matII.^3
    
 dy = [matA(:);matI(:)]
 
@@ -51,8 +51,6 @@ dy = [matA(:);matI(:)]
 % 
 % %AXIN2 
 % matI = tau(2).*(Pa + k1*matA.^2 - k5*matI ); %no diffusion- matII
-
-
 
 end
 
