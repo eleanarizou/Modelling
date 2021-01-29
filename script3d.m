@@ -58,24 +58,23 @@ RealradialAvgNuc;
 % outdir = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling'
 % RealradialAvgNuc = load(fullfile(outdir,"RealData.mat"))
 a = {zeros(8,3),zeros(8,3),zeros(8,3),zeros(8,3),zeros(8,3)}
-NewRealradialAvgNuc = {{a} {a} {a}};
+NewRealradialAvgNuc = {a a a};
+
 for k = 1:size(NewRealradialAvgNuc,2)
-   for v = 1:size(NewRealradialAvgNuc{1}{1},2)
-NewRealradialAvgNuc{k}{v}{} =  RealradialAvgNuc{k}{v}.nucAvg(1:17, 1:3);
-% RealradialAvgNuc{k} =  RealradialAvgNuc{k};
-
-for i = 2:2:17
-     NewRealradialAvgNuc{k}(i/2,1:3) = RealradialAvgNuc{k}(i, 1:3);
-end
-
+    for v = 1:size(NewRealradialAvgNuc{1},2)
+        RRealradialAvgNuc{k}{v} =  RealradialAvgNuc{k}{v}.nucAvg(1:17, 1:3);
+        for i = 2:2:17
+            NewRealradialAvgNuc{k}{v}(i/2,1:3) = RRealradialAvgNuc{k}{v}(i, 1:3);
+        end
+    end
 end
 
 % save(['result_data_run_number_' num2str(n) ',mat'],'s')
 
-outdir = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling'
+outdir = '/Volumes/storage/Eleana/modelling_gastruloids/NODALmodellling'
 save(fullfile(outdir,"RealData.mat"), "NewRealradialAvgNuc" )
 clear all; clc
-outdir = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling'
+outdir = '/Volumes/storage/Eleana/modelling_gastruloids/NODALmodellling'
 load(fullfile(outdir,"RealData.mat"))
 % mainDataDir = '/Users/elenirea/Documents/WarmflashWNTproject/ImageData/XMAS_12_23_19_esio17_wnts_axin/stiched4images/images';
 % dDir = mainDataDir;  % fullfile(mainDataDir, 'LSM10x');
@@ -95,13 +94,12 @@ load(fullfile(outdir,"RealData.mat"))
 % kdi = param.kdi; % basal degradation I 0.015
 % B = 3; % concentration BMP4
 
-saveInPath = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/';
+saveInPath = '/Volumes/storage/Eleana/modelling_gastruloids/NODALmodellling/outPutODE45_2020/';
 
-costall = @(x)costFunsolveFun(saveInPath,NewRealradialAvgNuc, x);
-lb = [10,0.01*ones(1,7)];
-ub = [15,0.3*ones(1,7)];
-ga(costall,8, [],[],[],[],lb, ub )
-
+costall = @(x)costFunSolver3D(saveInPath,NewRealradialAvgNuc{1}, x);
+lb = [0.01,0.5,0.01*ones(1,5),2,0.01*ones(1,3),5,1]; % there are 14 parameters 2K11_2 = 1 3n11 = 5 8n12 = 5 12K13_2 = 12 13n13 = 5
+ub = [0.3,2,0.3*ones(1,5),8,0.01*ones(1,3),15,8];
+ga(costall,14, [],[],[],[],lb, ub);
 %%%%
 
 %% Steady state values

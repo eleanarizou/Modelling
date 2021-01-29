@@ -1,10 +1,10 @@
-function [SimradialAvgNuc]  = SimColoniesAnalysis(dapi) 
+function [SimradialAvgNuc]  = SimColoniesAnalysis3D(dapi) 
 
 
 fInFormat ='u%d_%dh.tif'; %input
 fOutFormat = 'u_%dh.tif'; %output
-outDirec = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/images';
-inDirec = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/';
+outDirec = '/Volumes/storage/Eleana/modelling_gastruloids/NODALmodellling/outPutODE45_2020/images';
+inDirec = '/Volumes/storage/Eleana/modelling_gastruloids/NODALmodellling/outPutODE45_2020/';
 % IWP2 40:4:252
 % XMAS 4:4:996
 
@@ -35,7 +35,7 @@ end
 
 warning('off', 'MATLAB:imagesci:tiffmexutils:libtiffWarning');
 
-mainDataDir = '/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/images';
+mainDataDir = '/Volumes/storage/Eleana/modelling_gastruloids/NODALmodellling/outPutODE45_2020/images';
 dataDir = mainDataDir;  % fullfile(mainDataDir, 'LSM10x');
 
 fInFormat = 'u_%dh.tif';
@@ -108,6 +108,7 @@ end
 
 doubleNormalize = 0;
 n = numel(coloniesCombined);
+m = 1;
 radialAvgNuc = {};
 r = {};
 minI = Inf*(1:meta.nChannels);
@@ -118,7 +119,7 @@ for i = 1:n
                     meta, colRadius, DAPIChannel, coloniesCombined{i});
 %     chans = 1:length(meta.channelLabel);
 %     chansToPlot = setdiff(chans,DAPIChannel);
-    chansToPlot = 2;
+    chansToPlot = 1;
     
     if ~isempty(DAPIChannel)
         radialAvgNuc{i} = radialAvg.nucAvgDAPINormalized;
@@ -157,5 +158,7 @@ for i = 1:n
     end
 end
     saveas(gcf,fullfile(dataDir,'radialProfilesSimCombinedAXIN2.png'));
+%     radialAvgNuc{1}
+%     radialAvgNuc{4}
     SimradialAvgNuc = radialAvgNuc;
 end

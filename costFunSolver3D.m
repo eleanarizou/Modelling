@@ -21,30 +21,35 @@ media = ~chi;
 % edgewidth = 200;
 % ed = (1+tanh((R - radius_colony + edgewidth)/0.1))/2.*(1-tanh((R - radius_colony )/0.1));%.*(1+tanh((R - rad_col)/0.1));
 % 
-ic = [0.5, 0.2];
+ic = [32 2 1.0000e-04];
 matA = ic(1).*edge;
-matI = ic(2).*edge;
+matI2 = ic(2).*edge;
+matI3 = ic(2).*edge;
 
 %9 parameters
-% Da = param.Da;
-% ba = param.ba; %basal production A
-% bi = param.bi; %basal production I
-% ka = param.ka; %autoproduction A
-% kia = param.kia; %inhibition due to I
-% kda = param.kda; % basal degradation A
-% kdi = param.kdi; % basal degradation I
-% kaa = param.kaa; %production of I
-% kb = param.kb; % production due to BMP4
+% B1 = param.B1
+K11_1 = param.K11_1 = vec(1)
+K11_2 = param.K11_2 = vec(2)
+n11 = param.n11 = vec(3)
+kd1 = param.kd1 = vec(4)
+K21 = param.K21 = vec(5)
+% K41_1 = param.K41_1 = vec(2)
+% K41_2 = param.K41_2 = vec(2)
+% n41 = param.n41 = vec(2)
+% B2 = param.B2 = vec(2)
+K12_1 = param.K12_1 = vec(6)
+K12_2 = param.K12_2 = vec(7)
+n12 = param.n12 = vec(8)
+K32 = param.K32 = vec(9)
+kd2 = param.kd2 = vec(10)
+K13_1 = param.K13_1 = vec(11)
+K13_2 = param.K13_2 = vec(12)
+n13 = param.n13 = vec(13)
+% K23 = param.K23 = vec(2)
+kd3 = param.kd3 = vec(14)
+% kdm = param.kdm = vec(2)
 
-param.Da = vec(1);
-param.ba = vec(2);
-param.bi = vec(3);
-param.ka = vec(4);
-param.kia = vec(5);
-param.kda = vec(6);
-param.kdi = vec(7);
-param.kaa = vec(8);
-% param.kb = vec(9);
+
 
 for i = 2:2:8
     
@@ -53,21 +58,25 @@ for i = 2:2:8
     tspan = [i-2;i];
     sol = ode45(f,tspan,[matA(:);matI(:)]);
     y = sol.y(:,end);
-    n = length(y)/2;
-    A = y(1:n);
-    I = y((n+1):end);
-    matA = reshape(A,[],sqrt(n));
-    matI = reshape(I,[],sqrt(n));
+    n = length(y)/3;
+A = y(1:n);
+I2 = y((n+1):2*n);
+I3 = y((2*n+1):end);
+
+matA = reshape(A,[],sqrt(n));
+matI2 = reshape(I2,[],sqrt(n)); %lefty1?
+matI3 = reshape(I3,[],sqrt(n)); %lefty2?
     t = round(sol.x(end));
-    imshow(matI,[])
+    imshow(matI2,[])
     pause(1)
-    imwrite(matA./65,[saveInPath,'u1_',num2str(t),'h.tif']);
-    imwrite(matI./65,[saveInPath,'u2_',num2str(t),'h.tif']);
-    
+    imwrite(matA./65,[saveInPath,'A1_',num2str(t),'h.tif']);
+    imwrite(matI2./65,[saveInPath,'I2_',num2str(t),'h.tif']);
+    imwrite(matI3./65,[saveInPath,'I3_',num2str(t),'h.tif']);
+
 end
 
 %% FROM THE SIMULATIONS
-dapi = imread('/Volumes/storage/Eleana/modelling_gastruloids/XMASmodellling/outPutODE45_2020/dapi0.tif');
+dapi = imread('/Volumes/storage/Eleana/modelling_gastruloids/NODALmodellling/outPutODE45_2020/dapi0.tif');
 dapi = dapi ./ 500;
 dapi = imfill(dapi,'holes');
 
@@ -86,13 +95,15 @@ dapi = imfill(dapi,'holes');
 %time course - a bit more accurate
 diff = [];
 % NewRealradialAvgNuc.nucAvg(1,1)
-figure;plot(NewRealradialAvgNuc{2}(:,1));
-figure;plot(SimradialAvgNuc{4}(:,1));
+% figure;plot(NewRealradialAvgNuc{2}(:,1));
+figure;plot(SimradialAvgNuc{1}(:,1));
 pause (2)
 SimradialAvgNuc{1}(:,1)
-NewRealradialAvgNuc{2}(:,1)
-dif = abs((NewRealradialAvgNuc{2}(:,1) - SimradialAvgNuc{1}(:,1))); % the 2nd condition of real col is 48h, the 1st for sim is 48h
-diff(:,1) = dif(:,1).^2; %(WNT channel is the first)
+% NewRealradialAvgNuc{2}(:,1)
+dif1 = abs((NewRealradialAvgNuc{2}(:,1) - SimradialAvgNuc{1}(:,1))); % the 2nd condition of real col is 48h, the 1st for sim is 48h
+dif2 = abs((NewRealradialAvgNuc{4}(:,1) - SimradialAvgNuc{3}(:,1))); % the 4nd condition of real col is 24h, the 3st for sim is ~24h
+
+diff = dif1(:,1).^2 +dif2(:,1).^2 ; %(WNT channel is the first)
 costF = sum(sum(diff));
 % costF = mean(mean(diff));
 %     
