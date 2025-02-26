@@ -142,5 +142,5 @@ ga(costall,14, [],[],[],[],lb, ub);
 % 14.1744    0.1392    0.1494    0.0504    0.2027    0.1553  0.2242    0.6098
 
 
-8exceptionally well - it worked
+%exceptionally well - it worked
  costall([10.0000    0.0100    0.0100    0.0100    0.3000    0.0432    0.3000    0.0100])
